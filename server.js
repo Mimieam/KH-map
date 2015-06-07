@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('app');
+var app = require('./app');
 var debug = require('debug')('KH-Map:server');
 var http = require('http');
 
