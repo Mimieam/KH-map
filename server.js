@@ -5,7 +5,7 @@
  */
 
 var app = require('app');
-var debug = require('debug')('leaflet_demo:server');
+var debug = require('debug')('KH-Map:server');
 var http = require('http');
 
 /**
