@@ -1,4 +1,13 @@
+// UI
+$(".button-collapse").sideNav();
+$()
+
+
+// map
+
+
 var map = L.map('map')
+L.control.scale({imperial: true}).addTo(map) // map to miles
 
 L.tileLayer('https://{s}.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}', {
     attribution: 'Mimi Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -84,28 +93,26 @@ for (i=0; i<coordinates.length; i++) {
 
 L.mask(territoryBound).addTo(map);
 
-
 // zoom the map to the rectangle bounds
 map.fitBounds(territoryBound);
 
 
-
 defaultGeocoder =L.Control.Geocoder.nominatim()
 
-current_location = null
-navigator.geolocation.getCurrentPosition(function (position) {
-    current_location = position.coords;
-    console.log(current_location)
-});
+// current_location = null
+// navigator.geolocation.getCurrentPosition(function (position) {
+//     current_location = position.coords;
+//     console.log(current_location)
+// });
 
-function get_current_location (){
-    cur_pos = null
-    navigator.geolocation.getCurrentPosition(function (position) {
-        cur_pos = position.coords
-    });
-    console.log(cur_pos)
-    return cur_pos
-}
+// function get_current_location (){
+//     cur_pos = null
+//     navigator.geolocation.getCurrentPosition(function (position) {
+//         cur_pos = position.coords
+//     });
+//     console.log(cur_pos)
+//     return cur_pos
+// }
 
 
 function highlightFeature(e) {
@@ -139,18 +146,36 @@ function createButton(label, container) {
 
 function findRoute(e){
     map.fitBounds(e.target.getBounds());
-    var container = L.DomUtil.create('div')
-    startBtn = createButton('Start from this location', container),
-    destBtn = createButton('Go to this location', container);
+      // show loader
+      navigator.geolocation.getCurrentPosition(function (position) {
+        gps_route.setWaypoints([
+            L.latLng(position.coords.latitude, position.coords.longitude),
+            L.latLng(e.latlng.lat, e.latlng.lng)
+        ]);
+        //hide loader
+    });
+    console.log("done")
 
-    L.popup()
-        .setContent(container)
-        .setLatLng(e.latlng)
-        .openOn(map);
 }
 
+var marker = null
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
+    console.log(e.target.getBounds());
+
+    for (index in geojsonFeature.features) {
+        console.log(geojsonFeature.features[index].properties.title)
+    }
+    // Features.features[0].properties.title
+
+    if (marker) {
+        marker.setLatLng(e.latlng,{draggable:'true'}).
+            setPopupContent("SC-E 2nd").
+            openPopup();
+    } else {
+        marker = new L.marker(e.latlng,{draggable:'true'}).bindPopup("SC-E Territory").addTo(map).openPopup();
+    }
+
 }
 
 function onEachFeature(feature, layer) {
@@ -180,57 +205,50 @@ info.onAdd = function (map) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
-    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-        '<b>' + props.title + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
-        : 'Hover over a state');
+    this._div.innerHTML = (props ?
+        '<h5>' + props.congregation + 'Territory #</h5>' +  '<b>' + props.title + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+        : 'Click on a Territory');
 };
 
 info.addTo(map);
 
-// console.log(map.locate())
-// map.locate({setView: true, maxZoom: 16});
 
-
+gps_route = L.Routing.control ({
+    units: 'imperial',
+    waypoints: [],
+    routeWhileDragging: true,
+    geocoder: defaultGeocoder,
+}).addTo(map);
+$(".side-nav").append($(".leaflet-routing-container").detach())
 
 map.on('click', function(e) {
+ // marker = new L.marker(e.latlng, {id:2, draggable:'true'});
+    // marker.on('dragend', function(event){
+    //         var marker = event.target;
+    //         var position = marker.getLatLng();
+    //         alert(position);
+    //         marker.setLatLng([position],{id:2,draggable:'true'}).bindPopup(position).update();
+    // });
+    // map.addLayer(marker);
+
+
+
+
     console.log(e.latlng)
     defaultGeocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function(results) {
     navigator.geolocation.getCurrentPosition(function (position) {
-// var plan = new ReversablePlan([
-//         L.latLng(57.74, 11.94),
-//         L.latLng(57.6792, 11.949)
-//     ], {
-//         geocoder: L.Control.Geocoder.nominatim(),
-//         routeWhileDragging: true
-//     }),
-    // control = L.Routing.control({
-    //     routeWhileDragging: true,
-    //     // plan: plan
-    // }).addTo(map);
 
-        console.log(position.coords)
-        gps_route = L.Routing.control({
-            waypoints: [
-                L.latLng(position.coords.latitude, position.coords.longitude),
-                L.latLng(e.latlng.lat, e.latlng.lng)
-            ],
-            routeWhileDragging: true,
-            geocoder: defaultGeocoder
-
-        }).addTo(map);
-        cur_pos = position.coords
+    console.log(position.coords)
+    gps_route.setWaypoints([
+            L.latLng(position.coords.latitude, position.coords.longitude),
+            L.latLng(e.latlng.lat, e.latlng.lng)
+    ]);
+    cur_pos = position.coords
+    gps_route
+    console.log(L.Routing)
 
     });
         // var r = results[0];
-        // if (r) {
-        //     if (marker) {
-        //         marker.
-        //             setLatLng(r.center).
-        //             setPopupContent(r.html || r.name).
-        //             openPopup();
-        //     } else {
-        //         marker = L.marker(r.center).bindPopup(r.name).addTo(map).openPopup();
-        //     }
-        // }
+
     })
 })

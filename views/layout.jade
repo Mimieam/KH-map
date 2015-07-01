@@ -4,22 +4,54 @@ html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
     meta(name="description" content="")
+    meta(name="apple-mobile-web-app-capable" content="yes")
     meta(name="viewport" content="width=device-width, initial-scale=1")
     title Territory Map
     link(rel="stylesheet", href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css")
     link(rel="stylesheet", href="/javascripts/leaflet-routing-machine.css")
     //- link(rel="stylesheet", href="/javascripts/leaflet-control-geocoder.css")
     link(rel="stylesheet", href="/javascripts/Control.Geocoder.css")
+    link(rel="stylesheet", href="/components/materialize/dist/css/materialize.css")
+
+    link(rel="stylesheet", href="/stylesheets/style.css")
     style.
       .map {
-          position: absolute;
+          position: fixed;
           width: 100%;
           height: 100%;
       }
   body
+    nav
+      .nav-wrapper
+        a.brand-logo(href='#!') KH-Map
+        a.button-collapse(href='#', data-activates='mobile-button')
+            i.material-icons menu
+        ul.right.hide-on-med-and-down
+          li.input-field
+               i.material-icons.prefix search
+               input#search(type='text')
+               label(for='search') Territory #
+          li.login
+            a(href='#')
+              i.material-icons.left account_circle
+              | Link with Right Icon
+        ul.side-nav#mobile-button
+          li.input-field
+               i.material-icons.prefix search
+               input#search(type='text')
+               label(for='search') Territory #
+          li.login
+            a(href='#')
+              i.material-icons.left account_circle
+              | Link with Right Icon
+
+
+
     #map.map
+    script(src="/components/jquery/dist/jquery.min.js")
     script(src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
     script(src="/javascripts/leaflet-routing-machine.js")
+    script(src="/components/materialize/dist/js/materialize.min.js")
     script(src="/javascripts/Control.Geocoder.js")
     script(src="/javascripts/main.js")
     //- block content
