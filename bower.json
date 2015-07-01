@@ -1,0 +1,23 @@
+{
+  "name": "khmap",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Mimieam/KH-map",
+  "authors": [
+    "Mimieam <t.echismimi@gmail.com>"
+  ],
+  "description": "Kingdom Hall Territory app",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "materialize": "~0.97.0",
+    "material-design-icons": "~2.0.0",
+    "jquery": "~2.1.4"
+  }
+}
