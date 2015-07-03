@@ -8,6 +8,7 @@ html
     meta(name="viewport" content="width=device-width, initial-scale=1")
     title Territory Map
     link(rel="stylesheet", href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css")
+    //- link(rel="stylesheet", href="/components/leaflet/dist/leaflet.css")
     link(rel="stylesheet", href="/javascripts/leaflet-routing-machine.css")
     //- link(rel="stylesheet", href="/javascripts/leaflet-control-geocoder.css")
     link(rel="stylesheet", href="/javascripts/Control.Geocoder.css")
@@ -29,8 +30,8 @@ html
         ul.right.hide-on-med-and-down
           li.input-field
                i.material-icons.prefix search
-               input#search(type='text')
-               label(for='search') Territory #
+               input#search-nav(type='text')
+               label(for='search-nav') Territory #
           li.login
             a(href='#')
               i.material-icons.left account_circle
@@ -38,18 +39,39 @@ html
         ul.side-nav#mobile-button
           li.input-field
                i.material-icons.prefix search
-               input#search(type='text')
-               label(for='search') Territory #
+               input#search-side-nav(type='text')
+               label(for='search-side-nav') Territory #
           li.login
             a(href='#')
               i.material-icons.left account_circle
-              | Link with Right Icon
+              | Login
+
+    a.kh-btn-close.btn-floating.btn-large.waves-effect.waves-light.red
+        i.material-icons close
+
+    //- .fixed-action-btn(style='bottom: 45px; right: 24px;')
+    //- a.btn-floating.btn-large.red
+    //-     i.large.material-icons mode_edit
+    //-   ul
+    //-     li
+    //-       a.btn-floating.red
+    //-         i.material-icons insert_chart
+    //-     li
+    //-       a.btn-floating.yellow.darken-1
+    //-         i.material-icons format_quote
+    //-     li
+    //-       a.btn-floating.green
+    //-         i.material-icons publish
+    //-     li
+    //-       a.btn-floating.blue
+    //-         i.material-icons attach_file
 
 
 
     #map.map
     script(src="/components/jquery/dist/jquery.min.js")
     script(src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
+    //- script(src="/components/leaflet/dist/leaflet.js")
     script(src="/javascripts/leaflet-routing-machine.js")
     script(src="/components/materialize/dist/js/materialize.min.js")
     script(src="/javascripts/Control.Geocoder.js")
