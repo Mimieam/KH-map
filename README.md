@@ -13,5 +13,6 @@ Account / user
         -> load map
     -> Enter the territory # and bring the territory forward
     -> See which KH it belongs to
+     add KH according to places
 
 
